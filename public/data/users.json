@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "admin123",
+    "name": "Administrateur",
+    "role": "admin",
+    "email": "admin@pigfarm.local",
+    "permissions": ["full_access"]
+  },
+  {
+    "id": 2,
+    "username": "eleveur",
+    "password": "eleveur123",
+    "name": "Jean Dupont",
+    "role": "farmer",
+    "email": "jean.dupont@pigfarm.local",
+    "permissions": ["pig_management", "health_records", "breeding", "feeding", "sales"]
+  },
+  {
+    "id": 3,
+    "username": "technicien",
+    "password": "technicien123",
+    "name": "Marie Martin",
+    "role": "technician",
+    "email": "marie.martin@pigfarm.local",
+    "permissions": ["pig_management", "health_records", "breeding", "feeding"]
+  },
+  {
+    "id": 4,
+    "username": "veterinaire",
+    "password": "vet123",
+    "name": "Dr. Sophie Bernard",
+    "role": "veterinarian",
+    "email": "sophie.bernard@pigfarm.local",
+    "permissions": ["health_records", "vaccinations", "treatments"]
+  },
+  {
+    "id": 5,
+    "username": "invite",
+    "password": "invite",
+    "name": "Invité",
+    "role": "guest",
+    "email": "invite@pigfarm.local",
+    "permissions": ["read_only"]
+  }
+]

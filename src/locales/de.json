@@ -1,0 +1,442 @@
+{
+  "app": {
+    "title": "alpha med care GmbH"
+  },
+  "construction": {
+    "title": "Website im Aufbau",
+    "message": "Wir arbeiten aktiv an dieser Website",
+    "click": "Klicken Sie, um fortzufahren"
+  },
+  "menu": {
+    "title":"Menu",
+    "home": "Startseite",
+    "services": "Dienstleistungen",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "imprint": "Impressum",
+    "career": "Karriere",
+    "privacy": "Datenschutz",
+    "terms": "AGB",
+    "cookies": "Cookies",
+    "shop": "Shop",
+    "categories": {
+      "inspections": "Prüfungen & Kontrollen",
+      "information": "Informationen",
+      "forms":"Services Formular",
+      "fitness_equipment": "Fitnessgeräte",
+      "rehabilitation": "Rehabilitation",
+      "accessories_spare_parts": "Zubehör & Ersatzteile",
+      "calibration": "Kalibrierungen",
+      "maintenance": "Wartung & Service",
+      "sales": "Verkauf & Produkte",
+      "consulting": "Beratung & Schulung",
+      "stk": "Sicherheitstechnische Kontrolle (STK)",
+      "mtk": "Messtechnische Kontrolle (MTK)"
+    },
+    "items": {
+      "new": "Neuheiten",
+      "specials": "Sonderangebote",
+      "top_seller": "Bestseller",
+      "sale": "Sale",
+      "used_equipment": "Gebrauchtgeräte",
+      "stk_inspection": "Sicherheitstechnische Kontrolle (STK)",
+      "mtk_inspection": "Messtechnische Kontrolle (MTK)",
+      "stue_inspection": "Sicherheitstechnische Überprüfung (STÜ)",
+      "mtue_inspection": "Messtechnische Überprüfung (MTÜ)",
+      "dguv_inspection": "DGUV-Prüfung",
+      "general_inspection": "Allgemeine Inspektion",
+      "visual_inspection": "Sichtprüfung",
+      "ergometer_calibration": "Kalibrierung-Services",
+      "thermometer_calibration": "Thermometer-Kalibrierung",
+      "blood_pressure_calibration": "Blutdruckmessgeräte-Kalibrierung",
+      "ecg_calibration": "EKG-Geräte-Kalibrierung",
+      "ultrasound_calibration": "Ultraschallgeräte-Kalibrierung",
+      "repairs": "Gerätereparaturen",
+      "spare_parts": "Ersatzteile & Zubehör",
+      "installation_service": "Installationsservice",
+      "training": "Benutzerschulung & Einweisung",
+      "regular_maintenance": "Regelmäßige Wartung",
+      "emergency_service": "Notfall-Service",
+      "treadmills": "Laufbänder",
+      "exercise_bikes": "Fahrräder",
+      "ellipticals": "Ellipsentrainer",
+      "rowing_machines": "Rudergeräte",
+      "strength_equipment": "Kraftgeräte",
+      "motomed_systems": "Motomed-Systeme",
+      "therapy_bikes": "Therapiefahrräder",
+      "rehabilitation_accessories": "Reha-Zubehör",
+      "spare_parts_shop": "Ersatzteile",
+      "monitoring_systems": "Überwachungssysteme",
+      "consumables": "Verbrauchsmaterialien",
+      "all_products": "Alle Produkte"
+    },
+
+     "treadmills": {
+    "title": "Professionelle Laufbänder",
+    "subtitle": "Die größte Auswahl an Laufbändern für Fitnessstudios, Krankenhäuser und den Heimgebrauch",
+    "heroTitle": "Die Exzellenz der Bewegung",
+    "heroSubtitle": "Professionelle Laufbänder für Leistung und Langlebigkeit",
+    "models": "Modelle",
+    "delivery": "Lieferung",
+    "yearsWarranty": "Jahre Garantie",
+    "searchPlaceholder": "Laufband suchen...",
+    "filterByCategory": "Nach Kategorie filtern",
+    "filterBy": "Filtern nach",
+    "priceRange": "Preisspanne",
+    "brands": "Marken",
+    "technicalSpecs": "Technische Spezifikationen",
+    "motorPower": "Motorleistung",
+    "maxSpeed": "Maximale Geschwindigkeit",
+    "resetAll": "Alle zurücksetzen",
+    "new": "Neu",
+    "bestSeller": "Bestseller",
+    "noResults": "Keine Produkte gefunden",
+    "tryDifferentSearch": "Versuchen Sie es mit anderen Suchkriterien",
+    "resetFilters": "Filter zurücksetzen",
+    "vatIncluded": "inkl. MwSt.",
+    "inStock": "Auf Lager",
+    "outOfStock": "Nicht auf Lager",
+    "viewDetails": "Details anzeigen",
+    "addToCart": "In den Warenkorb",
+    "itemsPerPage": "Artikel pro Seite",
+    "whyOurTreadmills": "Warum unsere Laufbänder wählen?",
+    "needAdvice": "Brauchen Sie Beratung?",
+    "contactOurExperts": "Unsere Experten stehen Ihnen zur Verfügung, um Ihnen bei der Auswahl des richtigen Laufbands zu helfen",
+    "contactUs": "Kontaktieren Sie uns",
+    "requestCatalog": "Katalog anfordern",
+    "specifications": "Spezifikationen",
+    "included": "Im Angebot enthalten",
+    "customize": "Anpassen",
+    "yourConfiguration": "Ihre Konfiguration",
+    "totalPrice": "Gesamtpreis",
+    "addConfiguredToCart": "Konfiguration in den Warenkorb",
+    "requestQuote": "Angebot anfordern",
+    "compare": "Vergleichen",
+    "comparing": "Im Vergleich",
+    "noProducts": "Keine Produkte gefunden",
+    "tryDifferentFilters": "Versuchen Sie andere Filter",
+    "comparison": "Vergleich",
+    "category": "Kategorie",
+    "brand": "Marke",
+    "filter": "Filter",
+    "reset": "Zurücksetzen",
+    "insights": {
+      "bestValue": {
+        "title": "Bestes Preis-Leistungs-Verhältnis",
+        "description": "Dieses Modell bietet das beste Gleichgewicht zwischen Funktionen und Preis"
+      },
+      "performance": {
+        "title": "Optimale Leistung",
+        "description": "Leistungsstarker Motor und außergewöhnliche Stabilität für intensive Nutzung"
+      },
+      "warranty": {
+        "title": "Erweiterte Garantie",
+        "description": "Volle Abdeckung für 5 Jahre für mehr Sicherheit"
+      },
+      "features": {
+        "title": "Premium-Funktionen",
+        "description": "Ausgestattet mit neuester Technologie für optimales Nutzererlebnis"
+      }
+    }
+  },
+  "comparison": {
+    "title": "Produktvergleich",
+    "features": "Merkmale",
+    "viewDetails": "Details anzeigen",
+    "addToCart": "In den Warenkorb",
+    "uniqueFeatures": "Einzigartige Funktionen",
+    "overallScore": "Gesamtbewertung",
+    "ourRecommendation": "Unsere Empfehlung",
+    "keyInsights": "Wichtige Erkenntnisse",
+    "close": "Schließen",
+    "export": "Exportieren",
+    "selectRecommended": "Empfohlenes auswählen",
+    "featureNames": {
+      "price": "Preis",
+      "motorPower": "Motorleistung (PS)",
+      "maxSpeed": "Max. Geschwindigkeit (km/h)",
+      "incline": "Steigung (%)",
+      "runningArea": "Lauffläche (cm)",
+      "weightCapacity": "Gewichtskapazität (kg)",
+      "warranty": "Garantie (Jahre)",
+      "foldable": "Klappbar"
+    },
+    "reasons": {
+      "bestValue": "Bestes Preis-Leistungs-Verhältnis",
+      "premiumFeatures": "Premium-Funktionen enthalten",
+      "extendedWarranty": "Erweiterte Garantie enthalten"
+    },
+    "insights": {
+      "bestValue": {
+        "title": "Bestes Preis-Leistungs-Verhältnis",
+        "description": "Bietet das beste Gleichgewicht zwischen Preis und Merkmalen"
+      },
+      "performance": {
+        "title": "Überlegene Leistung",
+        "description": "Beste Leistung in Intensivnutzungstests"
+      },
+      "warranty": {
+        "title": "Längste Garantie",
+        "description": "Umfangreichste Abdeckung für maximalen Schutz"
+      },
+      "features": {
+        "title": "Exklusive Funktionen",
+        "description": "Einzigartige Technologien nicht bei anderen Modellen verfügbar"
+      }
+    }
+  }
+  
+  },
+  "header": {
+    "phone_label": "Hotline",
+    "phone": "+49 (0)9666 188950",
+    "invoice": "Kauf auf Rechnung",
+    "consultation": "Fachberatung",
+    "search_placeholder": "Produkte suchen...",
+    "prices_incl_vat": "Alle Preise in Euro inkl. gesetzliche MwSt. und zzgl. Versandkosten",
+    "free_shipping": "Gratisversand ab 149€",
+    "wishlist": "Merkliste",
+    "account": "Mein Konto",
+    "cart": "Warenkorb",
+    "logo_subtext": "Ihr Spezialist für Medizintechnik",
+    "search": "Suchen"
+  },
+  "language": {
+    "de": "Deutsch",
+    "en": "Englisch",
+    "fr": "Französisch"
+  },
+
+    "wishlist": {
+    "title": "Meine Wunschliste",
+    "empty": "Ihre Wunschliste ist leer",
+    "add_to_cart": "In den Warenkorb legen",
+    "remove": "Entfernen"
+  },
+"common": {
+    "close": "Schließen"
+  },
+  "account": {
+    "title": "Mein Konto",
+    "login": "Anmelden",
+    "or": "oder",
+    "email_placeholder":"Email eingeben",
+    "password_placeholder":"Passwort eingeben",
+    "first_name_placeholder":"Vorname eingeben",
+    "last_name_placeholder":"Nachname eingeben",
+    "register": "Registrieren",
+    "password": "Passwort",
+    "first_name": "Vorname",
+    "last_name": "Nachname",
+    "no_account": "Noch kein Konto?",
+    "has_account": "Schon ein Konto?",
+    "register_here": "Hier registrieren",
+    "login_here": "Hier anmelden",
+    "overview": "Übersicht",
+    "profile": "Persönliches Profil",
+    "addresses": "Adressen",
+    "payment_methods": "Zahlungsarten",
+    "orders": "Bestellungen",
+     "login_success_title": "Anmeldung erfolgreich",
+    "login_success_message": "Sie sind jetzt in Ihrem Konto angemeldet.",
+    "registration_success_title": "Registrierung erfolgreich",
+    "registration_success_message": "Ihr Konto wurde erfolgreich erstellt. Sie sind jetzt angemeldet.",
+    "items": {
+      "forgot_password": "Passwort vergessen",
+      "my_account": "Mein Konto",
+      "my_orders": "Meine Bestellungen",
+      "my_returns": "Meine Rücksendungen",
+      "return_info": "Informationen zur Rücksendungen",
+      "contact_settings": "Kontakteinstellungen"
+    }
+  },
+  
+"errors": {
+  "email_required": "E-Mail ist erforderlich",
+  "email_invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+  "password_required": "Passwort ist erforderlich",
+  "password_short": "Das Passwort muss mindestens 6 Zeichen enthalten",
+  "first_name_required": "Vorname ist erforderlich",
+  "last_name_required": "Nachname ist erforderlich",
+  "login_failed": "Anmeldung fehlgeschlagen",
+  "login_error": "Anmeldefehler, bitte versuchen Sie es erneut",
+  "register_failed": "Registrierung fehlgeschlagen",
+  "register_error": "Registrierungsfehler, bitte versuchen Sie es erneut"
+},
+"messages": {
+  "login_success": "Anmeldung erfolgreich!",
+  "register_success": "Registrierung erfolgreich! Sie können sich jetzt anmelden."
+},
+
+  "cart": {
+    "title": "Ihr Warenkorb",
+    "empty": "Ihr Warenkorb ist leer",
+    "continue_shopping": "Einkaufen fortsetzen",
+    "subtotal": "Zwischensumme",
+    "discount": "Rabatt",
+    "total": "Gesamtbetrag",
+    "checkout": "Zur Kasse gehen",
+    "request_quote": "Angebot anfordern",
+    "save_cart": "Warenkorb speichern",
+    "coupon_placeholder": "Gutscheincode",
+    "apply": "Anwenden"
+  },
+  "info": {
+    "help": {
+      "title": "Hilfe & Informationen",
+      "items": {
+        "faq": "FAQ",
+        "shipping": "Versandinformationen",
+        "payment": "Zahlungsmethoden",
+        "privacy": "Datenschutz",
+        "terms": "AGB"
+      }
+    },
+    "about": {
+      "title": "Über alpha-med-care",
+      "items": {
+        "about_us": "Über uns",
+        "career": "Karriere",
+        "locations": "Standorte",
+        "partners": "Servicepartner"
+
+      }
+    }
+  },
+  "auth": {
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "authentication": "Authentifizierung"
+  },
+  "footer": {
+    "address": "Adresse",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "social": "Folgen Sie uns",
+    "copyright": "© {year} alpha med care GmbH. Alle Rechte vorbehalten.",
+    "terms": "AGB",
+    "privacy": "Datenschutzerklärung",
+    "imprint": "Impressum",
+    "products": "Produkte",
+    "opening_hours": {
+      "title": "Öffnungszeiten",
+      "weekdays": "Mo-Do: 8:00 - 16:00",
+      "frieday": "Fr: 9:00 - 14:00"
+    },
+    "mobile_app": {
+      "title": "Mobile App",
+      "app_store": "Jetzt im App Store herunterladen",
+      "google_play": "Jetzt bei Google Play herunterladen"
+    },
+    "shipping": {
+      "title": "Versand"
+    },
+    "badges": {
+      "trusted_shops": "Trusted Shops Gütesiegel",
+      "safe_shopping": "Sicheres Einkaufen",
+      "ssl": "SSL Verschlüsselung"
+    },
+    "sections": {
+      "social": {
+        "title": "Social Media",
+        "follow_us": "Folgen Sie uns"
+      },
+      "company": {
+        "title": "Unternehmen",
+        "about": "Über uns",
+        "career": "Karriere",
+        "news": "Aktuelles",
+        "team": "Unser Team",
+        "quality": "Qualitätsmanagement",
+        "partners": "Partner",
+        "compliance": "Compliance"
+      },
+      "services": {
+        "title": "Dienstleistungen",
+        "inspections": "Prüfungen & Kontrollen",
+        "calibration": "Kalibrierungen",
+        "maintenance": "Wartungsservice",
+        "consulting": "Fachberatung",
+        "certification": "Zertifizierungen",
+        "training": "Schulungen",
+        "leasing": "Leasing"
+      },
+      "support": {
+        "title": "Support",
+        "contact": "Kontaktformular",
+        "faq": "Häufige Fragen",
+        "shipping": "Versandinfo",
+        "returns": "Retourenprozess",
+        "emergency": "Notdienst",
+        "service_center": "Service Center",
+        "hotline": "Hotline"
+      },
+      "resources": {
+        "title": "Ressourcen",
+        "blog": "Fachblog",
+        "guides": "Bedienungsanleitungen",
+        "videos": "Schulungsvideos",
+        "downloads": "Downloads",
+        "regulations": "Normen & Richtlinien",
+        "cookies": "Cookies"
+      }
+      
+    },
+    
+    "certifications": {
+      "title": "Zertifizierungen",
+      "iso13485": "ISO 13485:2016",
+      "iso9001": "ISO 9001:2015",
+      "mdr": "MDR 2017/745",
+      "ce": "CE-Kennzeichnung",
+      "tuv": "TÜV Certified",
+      "dguv": "DGUV Certified"
+    },
+    "payment_methods": {
+      "title": "Zahlungsarten",
+      "methods": [
+        "Rechnung (netto 30 Tage)",
+        "Kreditkarte",
+        "SEPA-Lastschrift",
+        "PayPal",
+        "Vorkasse"
+      ]
+    }
+  },
+  "company": {
+    "name": "alpha med care GmbH",
+    "legal_name": "alpha-med-care GmbH",
+    "copyright": "Alle Rechte vorbehalten",
+    "slogan": "Präzision in der Medizintechnik",
+    "details": {
+      "founded": "Gegründet 2010",
+      "employees": "50+ zertifizierte Techniker",
+      "locations": [
+        "Hauptsitz: Illschwang",
+        "Niederlassung: München",
+        "Servicezentrum: Berlin"
+      ],
+      "quality": "TÜV-zertifiziert nach ISO 13485",
+      "vat": "DE123456789",
+      "commercial_register": "HRB 12345, Amtsgericht Nürnberg"
+    },
+    "mission": {
+      "title": "Unser Auftrag",
+      "content": "Wir garantieren die Sicherheit und Präzision medizinischer Geräte durch fachgerechte Wartung, Kalibrierung und Prüfungen gemäß aktueller Normen."
+    }
+  },
+  "social": {
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "youtube": "YouTube",
+    "whatsapp": "WhatsApp"
+  },
+  "seo": {
+    "keywords": "Medizintechnik, Geräteprüfung, STK, MTK, Kalibrierung, Medizingerätewartung, DGUV Prüfung",
+    "description": "alpha-med-care - Ihr spezialisierter Dienstleister für Sicherheitsprüfungen, Kalibrierungen und Wartung medizinischer Geräte in ganz Deutschland."
+  }
+}

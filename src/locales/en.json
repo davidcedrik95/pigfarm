@@ -1,0 +1,318 @@
+{
+  "app": {
+    "title": "alpha med care GmbH"
+  },
+  "construction": {
+    "title": "Website under construction",
+    "message": "We are actively working on this website",
+    "click": "Click to continue"
+  },
+  "menu": {
+    "home": "Home",
+    "services": "Services",
+    "about": "About Us",
+    "contact": "Contact",
+    "products": "Products",
+    "blog": "Blog",
+    "faq": "FAQ",
+    "imprint": "Legal Notice",
+    "career": "Career",
+    "privacy": "Privacy",
+    "terms": "Terms & Conditions",
+    "cookies": "Cookies",
+    "shop": "Shop",
+    "categories": {
+      "inspections": "Inspections & Controls",
+      "information": "Informations",
+      "forms":"Service Form",
+      "calibration": "Calibrations",
+      "maintenance": "Maintenance & Service",
+      "sales": "Sales & Products",
+      "consulting": "Consulting & Training",
+      "stk": "Safety Technical Inspection (STK)",
+      "mtk": "Metrological Inspection (MTK)",
+      "fitness_equipment": "Fitness Equipment",
+      "rehabilitation": "Rehabilitation",
+      "accessories_spare_parts": "Accessories & Spare Parts"
+    },
+    "items": {
+      "new": "New",
+      "specials": "Specials",
+      "top_seller": "Top Seller",
+      "sale": "Sale",
+      "used_equipment": "Used Equipment",
+      "stk_inspection": "Safety Technical Inspection (STK)",
+      "mtk_inspection": "Metrological Inspection (MTK)",
+      "stue_inspection": "Safety Technical Verification (STÜ)",
+      "mtue_inspection": "Metrological Verification (MTÜ)",
+      "dguv_inspection": "DGUV Inspection",
+      "general_inspection": "General Inspection",
+      "visual_inspection": "Visual Inspection",
+      "ergometer_calibration": "Ergometer Calibration",
+      "thermometer_calibration": "Thermometer Calibration",
+      "blood_pressure_calibration": "Blood Pressure Monitor Calibration",
+      "ecg_calibration": "ECG Device Calibration",
+      "ultrasound_calibration": "Ultrasound Device Calibration",
+      "repairs": "Device Repairs",
+      "spare_parts": "Spare Parts & Accessories",
+      "installation_service": "Installation Service",
+      "training": "User Training",
+      "equipment_disposal": "Equipment Disposal",
+      "regular_maintenance": "Regular Maintenance",
+      "emergency_service": "Emergency Service",
+       "treadmills": "Treadmills",
+      "exercise_bikes": "Exercise Bikes",
+      "ellipticals": "Ellipticals",
+      "rowing_machines": "Rowing Machines",
+      "strength_equipment": "Strength Equipment",
+      "motomed_systems": "Motomed Systems",
+      "therapy_bikes": "Therapy Bikes",
+      "rehabilitation_accessories": "Rehabilitation Accessories",
+      "spare_parts_shop": "Spare Parts",
+      "monitoring_systems": "Monitoring Systems",
+      "consumables": "Consumables",
+      "all_products": "All Products"
+    }
+    
+  },
+  "header": {
+    "phone_label": "Hotline",
+    "phone": "+49 (0)9666 188950",
+    "invoice": "Invoice Purchase",
+    "consultation": "Expert Consultation",
+    "search_placeholder": "Search products...",
+    "prices_incl_vat": "All prices in Euro incl. VAT plus shipping",
+    "free_shipping": "Free shipping from €149",
+    "wishlist": "Wishlist",
+    "account": "My Account",
+    "cart": "Shopping Cart",
+    "logo_subtext": "Your Specialist in Medical Technology",
+    "search": "Search"
+  },
+  "language": {
+    "de": "German",
+    "en": "English",
+    "fr": "French"
+  },
+  "wishlist": {
+    "title": "My Wishlist",
+    "empty": "Your wishlist is empty",
+    "add_to_cart": "Add to Cart",
+    "remove": "Remove"
+  },
+  "common": {
+    "close": "Close"
+  },
+  "account": {
+    "title": "My Account",
+    "login": "Login",
+    "or": "or",
+    "register": "register",
+    "overview": "Overview",
+    "profile": "Personal Profile",
+    "addresses": "Addresses",
+    "payment_methods": "Payment Methods",
+    "orders": "Orders",
+    "login_success_title": "Login successful",
+    "login_success_message": "You are now logged into your account.",
+    "registration_success_title": "Registration successful",
+    "registration_success_message": "Your account has been created successfully. You are now logged in.",
+    "items": {
+      "forgot_password": "Forgot Password",
+      "dealer_login": "Dealer Login",
+      "my_account": "My Account",
+      "my_orders": "My Orders",
+      "my_returns": "My Returns",
+      "return_info": "Return Information",
+      "contact_settings": "Contact Settings"
+    }
+  },
+
+  "errors": {
+  "email_required": "Email is required",
+  "email_invalid": "Please enter a valid email address",
+  "password_required": "Password is required",
+  "password_short": "Password must be at least 6 characters long",
+  "first_name_required": "First name is required",
+  "last_name_required": "Last name is required",
+  "login_failed": "Login failed",
+  "login_error": "Login error, please try again",
+  "register_failed": "Registration failed",
+  "register_error": "Registration error, please try again"
+},
+"messages": {
+  "login_success": "Login successful!",
+  "register_success": "Registration successful! You can now log in."
+},
+"cart": {
+  "title": "Your Shopping Cart",
+  "empty": "Your cart is empty",
+  "continue_shopping": "Continue Shopping",
+  "subtotal": "Subtotal",
+  "discount": "Discount",
+  "total": "Total",
+  "checkout": "Proceed to Checkout",
+  "request_quote": "Request Quote",
+  "save_cart": "Save Cart",
+  "coupon_placeholder": "Coupon Code",
+  "apply": "Apply"
+},
+  
+"info": {
+    "help": {
+      "title": "Help & Information",
+      "items": {
+        "faq": "FAQ",
+        "shipping": "Shipping Information",
+        "payment": "Payment Methods",
+        "privacy": "Privacy",
+        "terms": "Terms & Conditions"
+      }
+    },
+    "about": {
+      "title": "More About alpha-med-care",
+      "items": {
+        "about_us": "About Us",
+        "career": "Career",
+        "locations": "Locations",
+        "partners": "Partners",
+        "press": "Press"
+      }
+    }
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "authentication": "Authentication"
+  },
+  "footer": {
+    "address": "Address",
+    "email": "Email",
+    "phone": "Phone",
+    "social": "Follow Us",
+    "copyright": "© {year} alpha med care GmbH. All rights reserved.",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "imprint": "Legal Notice",
+    "products": "Products",
+    "opening_hours": {
+      "title": "Opening Hours",
+      "weekdays": "Mon-Fri: 8:00 AM - 6:00 PM",
+      "saturday": "Sat: 9:00 AM - 2:00 PM",
+      "emergency": "Emergency Service: 24/7"
+    },
+    "mobile_app": {
+      "title": "Mobile App",
+      "app_store": "Download now on App Store",
+      "google_play": "Download now on Google Play"
+    },
+    "shipping": {
+      "title": "Shipping"
+    },
+    "badges": {
+      "trusted_shops": "Trusted Shops Seal",
+      "safe_shopping": "Safe Shopping",
+      "ssl": "SSL Encryption"
+    },
+    "sections": {
+      "social": {
+        "title": "Social Media",
+        "follow_us": "Follow Us"
+      },
+      "company": {
+        "title": "Company",
+        "about": "About Us",
+        "career": "Career",
+        "news": "News",
+        "team": "Our Team",
+        "quality": "Quality Management",
+        "partners": "Partners",
+        "compliance": "Compliance",
+        "locations": "Locations"
+      },
+      "services": {
+        "title": "Services",
+        "inspections": "Inspections & Controls",
+        "calibration": "Calibrations",
+        "maintenance": "Maintenance Service",
+        "consulting": "Expert Consultation",
+        "certification": "Certifications",
+        "training": "Training",
+        "leasing": "Leasing"
+      },
+      "support": {
+        "title": "Support",
+        "contact": "Contact Form",
+        "faq": "FAQ",
+        "shipping": "Shipping Info",
+        "returns": "Returns Process",
+        "emergency": "Emergency Service",
+        "service_center": "Service Center",
+        "hotline": "Hotline"
+      },
+      "resources": {
+        "title": "Resources",
+        "blog": "Expert Blog",
+        "guides": "User Manuals",
+        "videos": "Training Videos",
+        "downloads": "Downloads",
+        "regulations": "Norms & Regulations",
+        "cookies": "Cookies"
+      }
+    },
+    
+    "certifications": {
+      "title": "Certifications",
+      "iso13485": "ISO 13485:2016",
+      "iso9001": "ISO 9001:2015",
+      "mdr": "MDR 2017/745",
+      "ce": "CE Marking",
+      "tuv": "TÜV Certified",
+      "dguv": "DGUV Certified"
+    },
+    "payment_methods": {
+      "title": "Payment Methods",
+      "methods": [
+        "Invoice (net 30 days)",
+        "Credit Card",
+        "SEPA Direct Debit",
+        "PayPal",
+        "Prepayment"
+      ]
+    }
+  },
+  "company": {
+    "name": "alpha med care GmbH",
+    "legal_name": "alpha-med-care GmbH",
+    "copyright": "All rights reserved",
+    "slogan": "Precision in Medical Technology",
+    "details": {
+      "founded": "Founded 2010",
+      "employees": "50+ certified technicians",
+      "locations": [
+        "Headquarters: Illschwang",
+        "Branch: Munich",
+        "Service Center: Berlin"
+      ],
+      "quality": "TÜV certified to ISO 13485",
+      "vat": "DE123456789",
+      "commercial_register": "HRB 12345, Local Court Nürnberg"
+    },
+    "mission": {
+      "title": "Our Mission",
+      "content": "We guarantee the safety and precision of medical devices through professional maintenance, calibration, and inspections according to current standards."
+    }
+  },
+  "social": {
+    "facebook": "Facebook",
+    "linkedin": "LinkedIn",
+    "instagram": "Instagram",
+    "twitter": "Twitter",
+    "youtube": "YouTube",
+    "whatsapp": "WhatsApp"
+  },
+  "seo": {
+    "keywords": "Medical Technology, Device Inspection, STK, MTK, Calibration, Medical Device Maintenance, DGUV Inspection",
+    "description": "alpha-med-care - Your specialized service provider for safety inspections, calibrations, and maintenance of medical devices throughout Germany."
+  }
+}
