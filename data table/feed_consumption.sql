@@ -4,7 +4,7 @@ CREATE TABLE feed_consumption (
   period VARCHAR(20), -- ex: 'Nov 2024'
   feed_type VARCHAR(50),
   quantity DECIMAL(6,2),
-  cost DECIMAL(6,2),
+  cost DECIMAL(12,2) NOT NULL,
   conversion DECIMAL(4,2),
   FOREIGN KEY (pig_id) REFERENCES pigs(id) ON DELETE CASCADE
 );

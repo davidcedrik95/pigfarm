@@ -41,6 +41,16 @@
               </template>
               <span class="d-none d-sm-inline">Rapport</span>
             </v-btn>
+            <!-- Bouton de rafraîchissement -->
+            <v-btn
+              icon
+              variant="text"
+              @click="refreshStats"
+              :loading="loading"
+              size="small"
+            >
+              <v-icon>mdi-refresh</v-icon>
+            </v-btn>
           </div>
         </div>
       </v-col>
@@ -56,24 +66,29 @@
         >
           <div class="card-content pa-4">
             <div class="d-flex align-center justify-space-between mb-2">
-              <div>
-                <div class="text-uppercase text-caption font-weight-medium mb-1">
-                  {{ stat.title }}
-                </div>
-                <div class="d-flex align-end">
-                  <div class="text-h4 font-weight-bold">
-                    {{ stat.value }}
-                  </div>
-                  <div class="text-caption ml-2" v-if="stat.subtitle">
-                    {{ stat.subtitle }}
-                  </div>
-                </div>
+              <div class="text-uppercase text-caption font-weight-medium">
+                {{ stat.title }}
               </div>
-              <div class="stat-icon-wrapper">
-                <div class="stat-icon-circle" :style="{ backgroundColor: stat.cardColor }">
-                  <v-icon :color="stat.textColor" size="28">{{ stat.icon }}</v-icon>
-                </div>
+              <div class="stat-icon-circle" :style="{ backgroundColor: stat.cardColor }">
+                <v-icon :color="stat.textColor" size="24">{{ stat.icon }}</v-icon>
               </div>
+            </div>
+            <!-- Affichage principal -->
+            <div class="text-h3 font-weight-bold mb-1">
+              {{ stat.mainValue }}
+            </div>
+            <!-- Détails sous forme de chips -->
+            <div class="d-flex flex-wrap align-center gap-1">
+              <v-chip
+                v-for="(detail, idx) in stat.details"
+                :key="idx"
+                :color="detail.color"
+                variant="tonal"
+                size="small"
+                class="mt-1"
+              >
+                {{ detail.label }}
+              </v-chip>
             </div>
           </div>
 
@@ -89,7 +104,7 @@
       </v-col>
     </v-row>
 
-    <!-- Section Porcs Récemment Ajoutés -->
+    <!-- Section Porcs Récemment Ajoutés (inchangée) -->
     <v-row class="mb-4">
       <v-col cols="12">
         <v-card elevation="1" class="pa-3">
@@ -105,7 +120,6 @@
             </v-btn>
           </div>
 
-          <!-- Affichage conditionnel selon le chargement -->
           <v-row v-if="!loading && recentPigs.length > 0">
             <v-col 
               cols="12" 
@@ -133,7 +147,7 @@
       </v-col>
     </v-row>
 
-    <!-- Section Santé et Reproduction -->
+    <!-- Section Santé et Reproduction (inchangée, mais s'appuie sur les nouvelles données) -->
     <v-row class="mb-4">
       <!-- Vaccinations Imminentes -->
       <v-col cols="12" md="8">
@@ -234,7 +248,7 @@
       </v-col>
     </v-row>
 
-    <!-- Section Alimentation -->
+    <!-- Section Alimentation (inchangée) -->
     <v-row class="mb-4">
       <v-col cols="12">
         <v-card elevation="1" class="pa-3">
@@ -258,13 +272,12 @@
           <v-row>
             <v-col cols="12" md="8">
               <div class="feed-chart pa-3">
-                <!-- Graphique de consommation -->
                 <div class="text-center">
                   <div class="text-h4 font-weight-bold text-primary mb-2">
-                    {{ feedEfficiency }} g/kg
+                    {{ feedEfficiency }} kg/kg
                   </div>
                   <div class="text-caption text-grey">
-                    Efficacité alimentaire
+                    Efficacité alimentaire (kg aliment / kg gain)
                   </div>
                 </div>
               </div>
@@ -287,13 +300,13 @@
 
                 <v-list-item>
                   <template v-slot:prepend>
-                    <v-icon color="orange">mdi-currency-eur</v-icon>
+                    <v-icon color="orange">mdi-cash</v-icon>
                   </template>
                   <v-list-item-title class="text-caption">
                     Coût alimentaire/jour
                   </v-list-item-title>
                   <v-list-item-subtitle class="text-h6 font-weight-bold">
-                    {{ dailyFeedCost }} €
+                    {{ dailyFeedCost }} FCFA
                   </v-list-item-subtitle>
                 </v-list-item>
               </v-list>
@@ -303,7 +316,7 @@
       </v-col>
     </v-row>
 
-    <!-- Actions Rapides Footer -->
+    <!-- Actions Rapides Footer (inchangé) -->
     <v-row class="mt-4">
       <v-col cols="12">
         <v-card variant="flat" class="pa-2" color="grey-lighten-4">
@@ -360,22 +373,21 @@ import PigCard from '@/components/pigs/PigCard.vue'
 const router = useRouter()
 const pigStore = usePigStore()
 
-// Récupérer les porcs depuis le store (déjà chargés via initializeStore)
+// Données du store
 const pigs = computed(() => pigStore.pigs)
 const loading = computed(() => pigStore.loading)
-const modernStats = computed(() => pigStore.modernStats)
+const modernStats = computed(() => pigStore.modernStats) // structure améliorée
 const upcomingVaccinations = computed(() => pigStore.upcomingVaccinations)
 const stats = computed(() => pigStore.stats)
 
-// Données d'exemple pour l'alimentation (à remplacer par des données API)
-const dailyConsumption = ref(350)
-const feedEfficiency = ref('2.8')
-const feedStock = ref(1500)
-const dailyFeedCost = ref(420)
+// Données alimentaires
+const dailyConsumption = computed(() => pigStore.feedSummary.dailyConsumption)
+const feedEfficiency = computed(() => pigStore.feedSummary.feedEfficiency)
+const feedStock = computed(() => pigStore.feedSummary.feedStock)
+const dailyFeedCost = computed(() => pigStore.feedSummary.dailyFeedCost)
 
 // Computed : Porcs récents (4 derniers ajoutés)
 const recentPigs = computed(() => {
-  // Si les porcs ont une propriété created_at, on trie par date décroissante
   const sorted = [...pigs.value].sort((a, b) => {
     const dateA = a.created_at ? new Date(a.created_at) : 0
     const dateB = b.created_at ? new Date(b.created_at) : 0
@@ -384,7 +396,7 @@ const recentPigs = computed(() => {
   return sorted.slice(0, 4)
 })
 
-// Computed : Truies gestantes
+// Computed : Truies gestantes (identique)
 const pregnantSows = computed(() => {
   return pigs.value.filter(p => p.category === 'sow' && p.status === 'pregnant')
     .map(sow => ({
@@ -394,43 +406,16 @@ const pregnantSows = computed(() => {
     }))
 })
 
-// Méthodes de navigation
-const viewAllPigs = () => {
-  router.push({ name: 'pig-list' })
-}
-
-const viewPigDetails = (pig) => {
-  router.push({ name: 'pig-details', params: { id: pig.id } })
-}
-
-const viewVaccinations = () => {
-  router.push({ name: 'vaccinations' })
-}
-
-const viewFeedManagement = () => {
-  router.push({ name: 'feed-management' })
-}
-
-const addNewPig = () => {
-  router.push({ name: 'add-pig' })
-}
-
-const recordVaccination = () => {
-  router.push({ name: 'vaccinations' })
-}
-
-const recordWeight = () => {
-  router.push({ name: 'weighing' })
-}
-
-const recordDelivery = () => {
-  router.push({ name: 'deliveries' })
-}
-
-const exportReport = () => {
-  console.log('Export du rapport')
-  // Logique d'export
-}
+// Méthodes de navigation (inchangées)
+const viewAllPigs = () => router.push({ name: 'pig-list' })
+const viewPigDetails = (pig) => router.push({ name: 'pig-details', params: { id: pig.id } })
+const viewVaccinations = () => router.push({ name: 'vaccinations' })
+const viewFeedManagement = () => router.push({ name: 'feed-management' })
+const addNewPig = () => router.push({ name: 'add-pig' })
+const recordVaccination = () => router.push({ name: 'vaccinations' })
+const recordWeight = () => router.push({ name: 'weighing' })
+const recordDelivery = () => router.push({ name: 'deliveries' })
+const exportReport = () => console.log('Export du rapport')
 
 const getVaccinationStatusColor = (status) => {
   const colors = {
@@ -442,13 +427,17 @@ const getVaccinationStatusColor = (status) => {
   return colors[status] || 'grey'
 }
 
-// Le store est initialisé automatiquement (initializeStore appelé dans pigStore.js)
-// On peut éventuellement forcer un rechargement si nécessaire
+// Rafraîchissement des données
+const refreshStats = async () => {
+  await pigStore.fetchPigs()
+  await pigStore.fetchFeedSummary()
+  console.log('Données rafraîchies, porcs:', pigStore.pigs.length)
+}
+
+// Chargement initial : forcer le fetch pour obtenir toutes les données
 onMounted(async () => {
-  // Si les porcs n'ont pas encore été chargés, on les charge
-  if (pigStore.pigs.length === 0) {
-    await pigStore.fetchPigs()
-  }
+  await pigStore.fetchPigs()
+  await pigStore.fetchFeedSummary()
   console.log('Dashboard chargé avec', pigStore.pigs.length, 'porcs')
 })
 </script>
@@ -478,13 +467,9 @@ onMounted(async () => {
   transition: all 0.3s ease;
 }
 
-.stat-icon-wrapper {
-  position: relative;
-}
-
 .stat-icon-circle {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -508,6 +493,9 @@ onMounted(async () => {
 
 .gap-2 {
   gap: 8px;
+}
+.gap-1 {
+  gap: 4px;
 }
 
 @media (max-width: 960px) {

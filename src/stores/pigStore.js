@@ -16,12 +16,20 @@ export const usePigStore = defineStore('pig', () => {
   const showNotifications = ref(false)
   const loading = ref(false)
 
-  // Autres données mockées (à remplacer plus tard par des appels API)
-  const upcomingVaccinations = ref([])
+  // Autres données mockées (à remplacer par des appels API)
+  const upcomingVaccinations = ref([])  // à peupler plus tard
   const recentActivities = ref([])
   const dueInspections = ref([])
 
-  // Statistiques
+  // Données alimentaires
+  const feedSummary = ref({
+    dailyConsumption: 0,
+    feedEfficiency: 2.8,
+    feedStock: 0,
+    dailyFeedCost: 0
+  })
+
+  // Statistiques (on peut garder pour d'autres usages, mais modernStats va être recalculé directement)
   const stats = ref({
     totalPigs: 0,
     activePigs: 0,
@@ -53,68 +61,96 @@ export const usePigStore = defineStore('pig', () => {
     notifications.value.filter(n => !n.is_read).length
   )
 
-  const modernStats = computed(() => [
-    {
-      title: 'Porcs Totaux',
-      value: stats.value.totalPigs,
-      subtitle: `${stats.value.activePigs} actifs`,
-      description: 'Effectif total',
-      icon: 'mdi-pig',
-      cardColor: '#E8F5E9',
-      footerColor: '#4CAF50',
-      textColor: '#1B5E20',
-      subtitleColor: '#388E3C',
-      footerTextColor: '#FFFFFF',
-      iconColor: '#4CAF50',
-      iconBgColor: 'rgba(76, 175, 80, 0.1)',
-      action: () => setActiveTab('pig-list')
-    },
-    {
-      title: 'Truies Gestantes',
-      value: stats.value.pregnantSows,
-      subtitle: `${stats.value.piglets} porcelets`,
-      description: 'Reproduction',
-      icon: 'mdi-baby-bottle',
-      cardColor: '#FFF3E0',
-      footerColor: '#FF9800',
-      textColor: '#E65100',
-      subtitleColor: '#FF5722',
-      footerTextColor: '#FFFFFF',
-      iconColor: '#FF9800',
-      iconBgColor: 'rgba(255, 152, 0, 0.1)',
-      action: () => setActiveTab('breeding')
-    },
-    {
-      title: 'Vaccinations',
-      value: stats.value.dueVaccinations,
-      subtitle: stats.value.overdueVaccinations > 0 ? `${stats.value.overdueVaccinations} en retard` : '',
-      description: 'À effectuer',
-      icon: 'mdi-needle',
-      cardColor: '#FFEBEE',
-      footerColor: '#F44336',
-      textColor: '#B71C1C',
-      subtitleColor: '#D32F2F',
-      footerTextColor: '#FFFFFF',
-      iconColor: '#F44336',
-      iconBgColor: 'rgba(244, 67, 54, 0.1)',
-      action: () => setActiveTab('vaccinations')
-    },
-    {
-      title: 'Performance',
-      value: `${stats.value.averageDailyGain}g`,
-      subtitle: `Ratio: ${stats.value.feedConversionRatio}`,
-      description: 'Croissance journalière',
-      icon: 'mdi-chart-line',
-      cardColor: '#E3F2FD',
-      footerColor: '#2196F3',
-      textColor: '#0D47A1',
-      subtitleColor: '#1976D2',
-      footerTextColor: '#FFFFFF',
-      iconColor: '#2196F3',
-      iconBgColor: 'rgba(33, 150, 243, 0.1)',
-      action: () => setActiveTab('performance')
+  // Nouveau computed pour les statistiques avancées
+  const pigStats = computed(() => {
+    const totalPigs = pigs.value.length
+    const activePigs = pigs.value.filter(p => p.status === 'active').length
+    const inactivePigs = totalPigs - activePigs
+    const pregnantSows = pigs.value.filter(p => p.category === 'sow' && p.status === 'pregnant').length
+    const expectedPiglets = pigs.value
+      .filter(p => p.category === 'sow' && p.status === 'pregnant')
+      .reduce((sum, sow) => sum + (sow.expectedLitterSize || 0), 0)
+
+    // Vaccinations : ici on suppose que upcomingVaccinations est peuplé
+    const dueVaccinations = upcomingVaccinations.value.filter(v => v.status === 'Prévue').length
+    const overdueVaccinations = upcomingVaccinations.value.filter(v => v.status === 'En retard').length
+
+    // Performance : poids moyen
+    const validWeights = pigs.value.map(p => parseFloat(p.weight)).filter(w => !isNaN(w))
+    const avgWeight = validWeights.length ? (validWeights.reduce((a,b) => a+b, 0) / validWeights.length).toFixed(1) : 0
+
+    return {
+      totalPigs,
+      activePigs,
+      inactivePigs,
+      pregnantSows,
+      expectedPiglets,
+      dueVaccinations,
+      overdueVaccinations,
+      avgWeight
     }
-  ])
+  })
+
+  // Cartes modernes recalculées dynamiquement
+  const modernStats = computed(() => {
+    const router = useRouter()  // Attention : useRouter() doit être appelé dans un composant, pas dans un store.
+    // Pour contourner, on peut utiliser la fonction navigateur ou passer par une action.
+    // On va plutôt stocker l'instance du router à l'initialisation (voir plus bas).
+    const stats = pigStats.value
+    return [
+      {
+        title: 'Porcs',
+        mainValue: stats.totalPigs,
+        details: [
+          { label: `${stats.activePigs} actifs`, color: 'success' },
+          { label: `${stats.inactivePigs} inactifs`, color: 'grey' }
+        ],
+        icon: 'mdi-pig',
+        cardColor: '#E8F5E9',
+        textColor: '#1B5E20',
+        footerColor: '#4CAF50',
+        description: 'Effectif total',
+        action: () => setActiveTab('pig-list')
+      },
+      {
+        title: 'Reproduction',
+        mainValue: stats.pregnantSows,
+        details: [
+          { label: `${stats.expectedPiglets} porcelets attendus`, color: 'pink' }
+        ],
+        icon: 'mdi-baby-bottle',
+        cardColor: '#FFF3E0',
+        textColor: '#E65100',
+        footerColor: '#FF9800',
+        description: 'Truies gestantes',
+        action: () => setActiveTab('breeding')
+      },
+      {
+        title: 'Vaccinations',
+        mainValue: stats.dueVaccinations,
+        details: stats.overdueVaccinations > 0
+          ? [{ label: `${stats.overdueVaccinations} en retard`, color: 'error' }]
+          : [],
+        icon: 'mdi-needle',
+        cardColor: '#FFEBEE',
+        textColor: '#B71C1C',
+        footerColor: '#F44336',
+        description: 'Vaccinations à effectuer',
+        action: () => setActiveTab('vaccinations')
+      },
+      {
+        title: 'Performance',
+        mainValue: `${stats.avgWeight} kg`,
+        details: [],
+        icon: 'mdi-chart-line',
+        cardColor: '#E3F2FD',
+        textColor: '#0D47A1',
+        footerColor: '#2196F3',
+        description: 'Poids moyen',
+        action: () => setActiveTab('performance')
+      }
+    ]
+  })
 
   const quickActions = ref([
     { id: 1, icon: 'mdi-pig-plus', title: 'Ajouter un porc', subtitle: 'Nouvelle entrée', action: 'addPig', color: 'primary' },
@@ -133,7 +169,8 @@ export const usePigStore = defineStore('pig', () => {
       if (!res.ok) throw new Error('Erreur réseau')
       const data = await res.json()
       pigs.value = data
-      updateStats()
+      console.log('Porcs chargés :', pigs.value.length, pigs.value) // Debug
+      updateStats()  // Met à jour stats.value si nécessaire
     } catch (error) {
       console.error('Erreur fetchPigs:', error)
     } finally {
@@ -325,10 +362,23 @@ export const usePigStore = defineStore('pig', () => {
   }
 
   const updateStats = () => {
+    // Met à jour stats.value pour compatibilité avec d'autres parties du code
     stats.value.totalPigs = pigs.value.length
     stats.value.activePigs = pigs.value.filter(p => p.status === 'active').length
     stats.value.pregnantSows = pigs.value.filter(p => p.category === 'sow' && p.status === 'pregnant').length
     stats.value.piglets = pigs.value.filter(p => p.category === 'piglet').length
+  }
+
+  // Action pour récupérer les données alimentaires
+  const fetchFeedSummary = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/getFeedSummary.php`)
+      if (!res.ok) throw new Error('Erreur réseau')
+      const data = await res.json()
+      feedSummary.value = data
+    } catch (error) {
+      console.error('Erreur fetchFeedSummary:', error)
+    }
   }
 
   // UI
@@ -337,29 +387,42 @@ export const usePigStore = defineStore('pig', () => {
   const setActiveTab = (tab) => { activeTab.value = tab }
 
   const quickAction = (action) => {
-    const router = useRouter()
-    switch (action) {
-      case 'addPig':
-        router.push({ name: 'add-pig' })
-        break
-      case 'vaccination':
-        router.push({ name: 'vaccinations' })
-        break
-      case 'feeding':
-        router.push({ name: 'feed-management' })
-        break
-      case 'delivery':
-        router.push({ name: 'deliveries' })
-        break
-      case 'weighing':
-        router.push({ name: 'weighing' })
-        break
-      case 'customer':
-        router.push({ name: 'sales' })
-        break
-      default:
-        console.warn('Action rapide inconnue:', action)
+    // Pour utiliser le router dans le store, on doit importer useRouter() depuis un composant.
+    // On va plutôt utiliser une fonction qui sera injectée depuis le composant.
+    // On peut aussi utiliser window.location ou passer par une action avec le router comme paramètre.
+    // Solution simple : stocker une référence au router dans le store (voir après).
+    if (routerInstance) {
+      switch (action) {
+        case 'addPig':
+          routerInstance.push({ name: 'add-pig' })
+          break
+        case 'vaccination':
+          routerInstance.push({ name: 'vaccinations' })
+          break
+        case 'feeding':
+          routerInstance.push({ name: 'feed-management' })
+          break
+        case 'delivery':
+          routerInstance.push({ name: 'deliveries' })
+          break
+        case 'weighing':
+          routerInstance.push({ name: 'weighing' })
+          break
+        case 'customer':
+          routerInstance.push({ name: 'sales' })
+          break
+        default:
+          console.warn('Action rapide inconnue:', action)
+      }
+    } else {
+      console.warn('Router non disponible')
     }
+  }
+
+  // Pour pouvoir utiliser le router dans le store, on peut le stocker lors de l'initialisation.
+  let routerInstance = null
+  const setRouter = (router) => {
+    routerInstance = router
   }
 
   // Initialisation
@@ -374,9 +437,11 @@ export const usePigStore = defineStore('pig', () => {
     }
     await fetchPigs()
     await fetchStats()
+    await fetchFeedSummary()
     if (currentUser.value) await fetchNotifications()
   }
 
+  // Appel de l'initialisation automatique
   initializeStore()
 
   return {
@@ -390,6 +455,7 @@ export const usePigStore = defineStore('pig', () => {
     searchQuery,
     showNotifications,
     loading,
+    feedSummary,
 
     // Computed
     filteredPigs,
@@ -410,6 +476,7 @@ export const usePigStore = defineStore('pig', () => {
     deletePig,
     getPigById,
     fetchStats,
+    fetchFeedSummary,
     fetchNotifications,
     addNotification,
     markNotificationAsRead,
@@ -420,6 +487,7 @@ export const usePigStore = defineStore('pig', () => {
     toggleDrawer,
     toggleRail,
     setActiveTab,
-    quickAction
+    quickAction,
+    setRouter  // pour injecter le router depuis le composant principal
   }
 })
