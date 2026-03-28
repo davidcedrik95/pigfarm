@@ -1,0 +1,25 @@
+CREATE TABLE pigs (
+  id VARCHAR(20) PRIMARY KEY,   -- ex: P001
+  name VARCHAR(100),
+  ear_tag VARCHAR(50),
+  breed VARCHAR(50),
+  category ENUM('boar','sow','piglet','grower','finisher'),
+  gender ENUM('male','female'),
+  birth_date DATE,
+  weight DECIMAL(5,2),
+  age INT,
+  location VARCHAR(100),
+  color VARCHAR(30),
+  health_status ENUM('healthy','sick','pregnant','recovering','treatment'),
+  feed_type VARCHAR(50),
+  daily_feed DECIMAL(5,2),
+  status ENUM('active','sick','pregnant','sold','inactive') DEFAULT 'active',
+  is_favorite BOOLEAN DEFAULT FALSE,
+  mother_id VARCHAR(20) NULL,
+  notes TEXT,
+  gestation_week INT NULL,
+  expected_delivery DATE NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (mother_id) REFERENCES pigs(id) ON DELETE SET NULL
+);

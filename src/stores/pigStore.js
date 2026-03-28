@@ -1,5 +1,8 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+
+const API_BASE_URL = 'http://localhost/pigfarm/api' // Adapter
 
 export const usePigStore = defineStore('pig', () => {
   // États
@@ -11,89 +14,12 @@ export const usePigStore = defineStore('pig', () => {
   const rail = ref(false)
   const searchQuery = ref('')
   const showNotifications = ref(false)
+  const loading = ref(false)
 
-  // Données initiales
-  const initialPigs = [
-    {
-      id: 'P001',
-      name: 'Babe',
-      breed: 'Large White',
-      category: 'grower',
-      status: 'active',
-      weight: 45,
-      age: 4,
-      location: 'Enclos A',
-      birthDate: '2023-08-15',
-      gender: 'male',
-      isFavorite: true,
-      color: 'Rose',
-      earTag: '001',
-      healthStatus: 'healthy',
-      feedType: 'Croissance',
-      dailyFeed: 2.5,
-      notes: 'Porc en bonne santé, croissance normale'
-    },
-    {
-      id: 'P002',
-      name: 'Rose',
-      breed: 'Landrace',
-      category: 'sow',
-      status: 'pregnant',
-      weight: 220,
-      age: 24,
-      location: 'Maternité',
-      birthDate: '2022-01-10',
-      gender: 'female',
-      isFavorite: false,
-      color: 'Blanc',
-      earTag: '002',
-      healthStatus: 'pregnant',
-      feedType: 'Gestation',
-      dailyFeed: 3.2,
-      gestationWeek: 12,
-      expectedDelivery: '2024-03-20',
-      notes: 'Truie gestante, 12ème semaine'
-    },
-    {
-      id: 'P003',
-      name: 'Max',
-      breed: 'Pietrain',
-      category: 'boar',
-      status: 'active',
-      weight: 280,
-      age: 30,
-      location: 'Verratière',
-      birthDate: '2021-11-05',
-      gender: 'male',
-      isFavorite: false,
-      color: 'Tacheté',
-      earTag: '003',
-      healthStatus: 'healthy',
-      feedType: 'Reproduction',
-      dailyFeed: 3.5,
-      notes: 'Verrat reproducteur, excellente génétique'
-    },
-    {
-      id: 'P004',
-      name: 'Petit',
-      breed: 'Large White',
-      category: 'piglet',
-      status: 'active',
-      weight: 8,
-      age: 1,
-      location: 'Nurserie',
-      birthDate: '2024-01-20',
-      gender: 'female',
-      isFavorite: true,
-      color: 'Rose clair',
-      earTag: '004',
-      healthStatus: 'healthy',
-      feedType: 'Porcelet',
-      dailyFeed: 0.8,
-      motherId: 'P002',
-      notes: 'Porcelet né le 20/01/2024'
-    }
-  ]
+  // Autres données mockées (à remplacer plus tard par des appels API)
+  const upcomingVaccinations = ref([])
+  const recentActivities = ref([])
+  const dueInspections = ref([])
 
   // Statistiques
   const stats = ref({
@@ -101,49 +27,31 @@ export const usePigStore = defineStore('pig', () => {
     activePigs: 0,
     pregnantSows: 0,
     piglets: 0,
-    dueVaccinations: 5,
-    overdueVaccinations: 2,
-    totalCustomers: 25,
-    activeCustomers: 20,
-    totalTasks: 15,
-    activeTasks: 8,
-    monthlyFeedConsumption: 10500,
-    averageDailyGain: 850,
-    feedConversionRatio: 2.8
+    dueVaccinations: 0,
+    overdueVaccinations: 0,
+    totalCustomers: 0,
+    activeCustomers: 0,
+    totalTasks: 0,
+    activeTasks: 0,
+    monthlyFeedConsumption: 0,
+    averageDailyGain: 0,
+    feedConversionRatio: 0
   })
-
-  // Données pour le dashboard
-  const upcomingVaccinations = ref([
-    { id: 1, pigId: 'P001', pigName: 'Babe', vaccine: 'PCV2', date: '2024-12-15', status: 'Prévue' },
-    { id: 2, pigId: 'P002', pigName: 'Rose', vaccine: 'Parvovirus', date: '2024-12-10', status: 'En retard' },
-    { id: 3, pigId: 'P003', pigName: 'Max', vaccine: 'Rouget', date: '2024-12-20', status: 'Prévue' }
-  ])
-
-  const recentActivities = ref([
-    { icon: 'mdi-scale-bathroom', title: 'Pesée de Babe', time: 'Il y a 30 minutes', color: 'success' },
-    { icon: 'mdi-needle', title: 'Vaccination de Max', time: 'Il y a 2 heures', color: 'info' },
-    { icon: 'mdi-baby-bottle', title: 'Mise bas de Truie #12', time: 'Aujourd\'hui, 09:15', color: 'primary' },
-    { icon: 'mdi-food', title: 'Distribution alimentaire', time: 'Hier, 16:30', color: 'warning' }
-  ])
-
-  const dueInspections = ref([
-    { id: 1, deviceName: 'Pesée automatique', customer: 'Enclos A', dueDate: '15.12.2024', status: 'Fällig' },
-    { id: 2, deviceName: 'Distributeur alimentaire', customer: 'Maternité', dueDate: '10.12.2024', status: 'Überfällig' }
-  ])
-
-  const notificationCount = computed(() => notifications.value.length)
-  const dueInspectionsCount = computed(() => dueInspections.value.length)
 
   // Computed
   const filteredPigs = computed(() => {
     if (!searchQuery.value) return pigs.value
-    return pigs.value.filter(pig => 
-      pig.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      pig.breed.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      pig.id.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      pig.earTag.toLowerCase().includes(searchQuery.value.toLowerCase())
+    return pigs.value.filter(pig =>
+      pig.name?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      pig.breed?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      pig.id?.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+      pig.earTag?.toLowerCase().includes(searchQuery.value.toLowerCase())
     )
   })
+
+  const notificationCount = computed(() =>
+    notifications.value.filter(n => !n.is_read).length
+  )
 
   const modernStats = computed(() => [
     {
@@ -159,7 +67,7 @@ export const usePigStore = defineStore('pig', () => {
       footerTextColor: '#FFFFFF',
       iconColor: '#4CAF50',
       iconBgColor: 'rgba(76, 175, 80, 0.1)',
-      action: () => activeTab.value = 'pig-list'
+      action: () => setActiveTab('pig-list')
     },
     {
       title: 'Truies Gestantes',
@@ -174,7 +82,7 @@ export const usePigStore = defineStore('pig', () => {
       footerTextColor: '#FFFFFF',
       iconColor: '#FF9800',
       iconBgColor: 'rgba(255, 152, 0, 0.1)',
-      action: () => activeTab.value = 'breeding'
+      action: () => setActiveTab('breeding')
     },
     {
       title: 'Vaccinations',
@@ -189,7 +97,7 @@ export const usePigStore = defineStore('pig', () => {
       footerTextColor: '#FFFFFF',
       iconColor: '#F44336',
       iconBgColor: 'rgba(244, 67, 54, 0.1)',
-      action: () => activeTab.value = 'vaccinations'
+      action: () => setActiveTab('vaccinations')
     },
     {
       title: 'Performance',
@@ -204,11 +112,10 @@ export const usePigStore = defineStore('pig', () => {
       footerTextColor: '#FFFFFF',
       iconColor: '#2196F3',
       iconBgColor: 'rgba(33, 150, 243, 0.1)',
-      action: () => activeTab.value = 'performance'
+      action: () => setActiveTab('performance')
     }
   ])
 
-  // Actions rapides
   const quickActions = ref([
     { id: 1, icon: 'mdi-pig-plus', title: 'Ajouter un porc', subtitle: 'Nouvelle entrée', action: 'addPig', color: 'primary' },
     { id: 2, icon: 'mdi-needle', title: 'Enregistrer vaccination', subtitle: 'Nouvelle vaccination', action: 'vaccination', color: 'orange' },
@@ -218,131 +125,258 @@ export const usePigStore = defineStore('pig', () => {
     { id: 6, icon: 'mdi-account-plus', title: 'Ajouter client', subtitle: 'Nouveau client', action: 'customer', color: 'teal' }
   ])
 
-  // Méthodes
-  const initializeStore = () => {
-    pigs.value = initialPigs
-    updateStats()
-    
-    // Notifications de test
-    notifications.value = [
-      { id: 1, icon: 'mdi-alert', title: 'Vaccination en retard', message: 'Rose - Parvovirus', color: 'error' },
-      { id: 2, icon: 'mdi-bell', title: 'Pesée programmée', message: 'Babe - Contrôle mensuel', color: 'info' },
-      { id: 3, icon: 'mdi-food', title: 'Commande aliment', message: 'Aliment croissance - 500kg', color: 'success' }
-    ]
-    
-    // Charger l'utilisateur depuis localStorage
+  // Méthodes API
+  const fetchPigs = async () => {
+    loading.value = true
+    try {
+      const res = await fetch(`${API_BASE_URL}/getPigs.php`)
+      if (!res.ok) throw new Error('Erreur réseau')
+      const data = await res.json()
+      pigs.value = data
+      updateStats()
+    } catch (error) {
+      console.error('Erreur fetchPigs:', error)
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const addPig = async (pigData) => {
+    loading.value = true
+    try {
+      const res = await fetch(`${API_BASE_URL}/addPig.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(pigData)
+      })
+      const result = await res.json()
+      if (result.success) {
+        await fetchPigs()
+        return result
+      } else {
+        throw new Error(result.error || 'Erreur ajout')
+      }
+    } catch (error) {
+      console.error('addPig error:', error)
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const updatePig = async (id, pigData) => {
+    loading.value = true
+    try {
+      const res = await fetch(`${API_BASE_URL}/updatePig.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, ...pigData })
+      })
+      const result = await res.json()
+      if (result.success) {
+        await fetchPigs()
+        return result
+      } else {
+        throw new Error(result.error || 'Erreur mise à jour')
+      }
+    } catch (error) {
+      console.error('updatePig error:', error)
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const deletePig = async (id) => {
+    loading.value = true
+    try {
+      const res = await fetch(`${API_BASE_URL}/deletePig.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      })
+      const result = await res.json()
+      if (result.success) {
+        await fetchPigs()
+        return true
+      } else {
+        throw new Error(result.error || 'Erreur suppression')
+      }
+    } catch (error) {
+      console.error('deletePig error:', error)
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const getPigById = (id) => pigs.value.find(p => p.id === id)
+
+  const fetchStats = async () => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/getStats.php`)
+      const data = await res.json()
+      stats.value = { ...stats.value, ...data }
+    } catch (error) {
+      console.error('fetchStats error:', error)
+    }
+  }
+
+  const fetchNotifications = async () => {
+    if (!currentUser.value) return
+    try {
+      const res = await fetch(`${API_BASE_URL}/getNotifications.php?user_id=${currentUser.value.id}`)
+      const data = await res.json()
+      notifications.value = data
+    } catch (error) {
+      console.error('fetchNotifications error:', error)
+    }
+  }
+
+  const addNotification = async (notification) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/addNotification.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...notification,
+          user_id: currentUser.value?.id || 0,
+          is_read: false
+        })
+      })
+      const result = await res.json()
+      if (result.success) await fetchNotifications()
+    } catch (error) {
+      console.error('addNotification error:', error)
+    }
+  }
+
+  const markNotificationAsRead = async (id) => {
+    try {
+      await fetch(`${API_BASE_URL}/markNotificationRead.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id })
+      })
+      const notif = notifications.value.find(n => n.id === id)
+      if (notif) notif.is_read = true
+    } catch (error) {
+      console.error('markNotificationAsRead error:', error)
+    }
+  }
+
+  const markAllAsRead = async () => {
+    if (!currentUser.value) return
+    try {
+      await fetch(`${API_BASE_URL}/markAllNotificationsRead.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: currentUser.value.id })
+      })
+      notifications.value.forEach(n => n.is_read = true)
+    } catch (error) {
+      console.error('markAllAsRead error:', error)
+    }
+  }
+
+  const clearNotifications = async () => {
+    if (!currentUser.value) return
+    try {
+      await fetch(`${API_BASE_URL}/clearNotifications.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: currentUser.value.id })
+      })
+      notifications.value = []
+    } catch (error) {
+      console.error('clearNotifications error:', error)
+    }
+  }
+
+  const login = async (username, password) => {
+    loading.value = true
+    try {
+      const res = await fetch(`${API_BASE_URL}/login.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password })
+      })
+      const result = await res.json()
+      if (result.success) {
+        currentUser.value = result.user
+        localStorage.setItem('currentUser', JSON.stringify(result.user))
+        await fetchNotifications()
+        return true
+      } else {
+        throw new Error(result.error || 'Identifiants invalides')
+      }
+    } catch (error) {
+      console.error('login error:', error)
+      throw error
+    } finally {
+      loading.value = false
+    }
+  }
+
+  const logout = () => {
+    currentUser.value = null
+    localStorage.removeItem('currentUser')
+    notifications.value = []
+  }
+
+  const updateStats = () => {
+    stats.value.totalPigs = pigs.value.length
+    stats.value.activePigs = pigs.value.filter(p => p.status === 'active').length
+    stats.value.pregnantSows = pigs.value.filter(p => p.category === 'sow' && p.status === 'pregnant').length
+    stats.value.piglets = pigs.value.filter(p => p.category === 'piglet').length
+  }
+
+  // UI
+  const toggleDrawer = () => { drawer.value = !drawer.value }
+  const toggleRail = () => { rail.value = !rail.value }
+  const setActiveTab = (tab) => { activeTab.value = tab }
+
+  const quickAction = (action) => {
+    const router = useRouter()
+    switch (action) {
+      case 'addPig':
+        router.push({ name: 'add-pig' })
+        break
+      case 'vaccination':
+        router.push({ name: 'vaccinations' })
+        break
+      case 'feeding':
+        router.push({ name: 'feed-management' })
+        break
+      case 'delivery':
+        router.push({ name: 'deliveries' })
+        break
+      case 'weighing':
+        router.push({ name: 'weighing' })
+        break
+      case 'customer':
+        router.push({ name: 'sales' })
+        break
+      default:
+        console.warn('Action rapide inconnue:', action)
+    }
+  }
+
+  // Initialisation
+  const initializeStore = async () => {
     const userData = localStorage.getItem('currentUser')
     if (userData) {
       try {
         currentUser.value = JSON.parse(userData)
       } catch (error) {
-        console.error('Erreur lors du chargement de l\'utilisateur:', error)
+        console.error('Erreur parsing utilisateur:', error)
       }
     }
+    await fetchPigs()
+    await fetchStats()
+    if (currentUser.value) await fetchNotifications()
   }
 
-  const updateStats = () => {
-    stats.value = {
-      totalPigs: pigs.value.length,
-      activePigs: pigs.value.filter(p => p.status === 'active').length,
-      pregnantSows: pigs.value.filter(p => p.category === 'sow' && p.status === 'pregnant').length,
-      piglets: pigs.value.filter(p => p.category === 'piglet').length,
-      dueVaccinations: 5,
-      overdueVaccinations: 2,
-      totalCustomers: 25,
-      activeCustomers: 20,
-      totalTasks: 15,
-      activeTasks: 8,
-      monthlyFeedConsumption: 10500,
-      averageDailyGain: 850,
-      feedConversionRatio: 2.8
-    }
-  }
-
-  const addPig = (pigData) => {
-    const newPig = {
-      id: `P${String(pigs.value.length + 1).padStart(3, '0')}`,
-      ...pigData,
-      createdAt: new Date().toISOString(),
-      status: 'active'
-    }
-    pigs.value.push(newPig)
-    updateStats()
-    return newPig
-  }
-
-  const updatePig = (id, pigData) => {
-    const index = pigs.value.findIndex(p => p.id === id)
-    if (index !== -1) {
-      pigs.value[index] = { ...pigs.value[index], ...pigData }
-      updateStats()
-      return pigs.value[index]
-    }
-    return null
-  }
-
-  const deletePig = (id) => {
-    const index = pigs.value.findIndex(p => p.id === id)
-    if (index !== -1) {
-      pigs.value.splice(index, 1)
-      updateStats()
-      return true
-    }
-    return false
-  }
-
-  const getPigById = (id) => {
-    return pigs.value.find(p => p.id === id)
-  }
-
-  const toggleDrawer = () => {
-    drawer.value = !drawer.value
-  }
-
-  const toggleRail = () => {
-    rail.value = !rail.value
-  }
-
-  const setActiveTab = (tab) => {
-    activeTab.value = tab
-  }
-
-  const addNotification = (notification) => {
-    notifications.value.unshift({
-      id: Date.now(),
-      ...notification,
-      time: new Date().toISOString()
-    })
-  }
-
-  const clearNotifications = () => {
-    notifications.value = []
-  }
-
-  const quickAction = (action) => {
-    switch(action) {
-      case 'addPig':
-        console.log('Ajouter un porc')
-        break
-      case 'vaccination':
-        console.log('Vaccination')
-        break
-      case 'feeding':
-        console.log('Alimentation')
-        break
-      case 'delivery':
-        console.log('Mise bas')
-        break
-      case 'weighing':
-        console.log('Pesée')
-        break
-      case 'customer':
-        console.log('Client')
-        break
-    }
-  }
-
-  // Initialiser le store
   initializeStore()
 
   return {
@@ -355,32 +389,37 @@ export const usePigStore = defineStore('pig', () => {
     rail,
     searchQuery,
     showNotifications,
-    
+    loading,
+
     // Computed
     filteredPigs,
     modernStats,
     notificationCount,
-    dueInspectionsCount,
     quickActions,
-    
+
     // Données
     stats,
     upcomingVaccinations,
     recentActivities,
     dueInspections,
-    
+
     // Méthodes
-    initializeStore,
-    updateStats,
+    fetchPigs,
     addPig,
     updatePig,
     deletePig,
     getPigById,
+    fetchStats,
+    fetchNotifications,
+    addNotification,
+    markNotificationAsRead,
+    markAllAsRead,
+    clearNotifications,
+    login,
+    logout,
     toggleDrawer,
     toggleRail,
     setActiveTab,
-    addNotification,
-    clearNotifications,
     quickAction
   }
 })

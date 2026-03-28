@@ -15,7 +15,7 @@
               Gestion complète de votre élevage porcin
             </p>
           </div>
-          
+
           <!-- Actions Rapides -->
           <div class="d-flex align-center gap-1 flex-wrap">
             <v-btn
@@ -46,7 +46,7 @@
       </v-col>
     </v-row>
 
-    <!-- Cartes de Statistiques -->
+    <!-- Cartes de Statistiques (modernStats du store) -->
     <v-row class="mb-4">
       <v-col cols="12" sm="6" md="3" v-for="(stat, index) in modernStats" :key="index">
         <v-card 
@@ -76,7 +76,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="card-footer pa-3" :style="{ backgroundColor: stat.footerColor }">
             <div class="d-flex align-center justify-space-between">
               <span class="text-caption font-weight-medium text-white">
@@ -104,8 +104,9 @@
               <v-icon right size="small">mdi-chevron-right</v-icon>
             </v-btn>
           </div>
-          
-          <v-row v-if="recentPigs.length > 0">
+
+          <!-- Affichage conditionnel selon le chargement -->
+          <v-row v-if="!loading && recentPigs.length > 0">
             <v-col 
               cols="12" 
               sm="6" 
@@ -117,7 +118,14 @@
               <PigCard :pig="pig" @click="viewPigDetails(pig)" />
             </v-col>
           </v-row>
-          
+
+          <v-progress-circular 
+            v-else-if="loading" 
+            indeterminate 
+            color="primary" 
+            class="d-block mx-auto my-4"
+          ></v-progress-circular>
+
           <v-alert v-else type="info" variant="tonal" density="compact">
             Aucun porc enregistré. Ajoutez votre premier porc !
           </v-alert>
@@ -141,7 +149,7 @@
               <v-icon right size="small">mdi-chevron-right</v-icon>
             </v-btn>
           </div>
-          
+
           <v-table density="compact">
             <thead>
               <tr>
@@ -190,7 +198,7 @@
             <h2 class="text-subtitle-1 font-weight-bold">Truies Gestantes</h2>
             <v-icon color="pink" size="small">mdi-baby-bottle</v-icon>
           </div>
-          
+
           <v-list density="compact" v-if="pregnantSows.length > 0">
             <v-list-item
               v-for="sow in pregnantSows.slice(0, 4)"
@@ -202,23 +210,23 @@
                   <v-icon color="pink">mdi-pig-variant</v-icon>
                 </v-avatar>
               </template>
-              
+
               <v-list-item-title class="text-caption font-weight-bold">
                 {{ sow.name }}
               </v-list-item-title>
               <v-list-item-subtitle class="text-caption">
                 <div>Gestation: {{ sow.gestationWeek }}/16 semaines</div>
-                <div>Portée prévue: {{ sow.expectedLitterSize }}</div>
+                <div>Portée prévue: {{ sow.expectedLitterSize || '?' }}</div>
               </v-list-item-subtitle>
-              
+
               <template v-slot:append>
                 <v-chip size="x-small" color="pink">
-                  {{ sow.daysUntilDelivery }} jours
+                  {{ sow.daysUntilDelivery || '?' }} jours
                 </v-chip>
               </template>
             </v-list-item>
           </v-list>
-          
+
           <v-alert v-else type="info" variant="tonal" density="compact">
             Aucune truie gestante
           </v-alert>
@@ -246,7 +254,7 @@
               </v-btn>
             </div>
           </div>
-          
+
           <v-row>
             <v-col cols="12" md="8">
               <div class="feed-chart pa-3">
@@ -274,9 +282,9 @@
                     {{ feedStock }} kg
                   </v-list-item-subtitle>
                 </v-list-item>
-                
+
                 <v-divider></v-divider>
-                
+
                 <v-list-item>
                   <template v-slot:prepend>
                     <v-icon color="orange">mdi-currency-eur</v-icon>
@@ -352,102 +360,47 @@ import PigCard from '@/components/pigs/PigCard.vue'
 const router = useRouter()
 const pigStore = usePigStore()
 
-// Données du dashboard
-const recentPigs = ref([
-  {
-    id: 'P001',
-    name: 'Babe',
-    breed: 'Large White',
-    category: 'grower',
-    status: 'active',
-    weight: 45,
-    age: 4,
-    location: 'Enclos A',
-    isFavorite: true
-  },
-  {
-    id: 'P002',
-    name: 'Rose',
-    breed: 'Landrace',
-    category: 'sow',
-    status: 'pregnant',
-    weight: 220,
-    age: 24,
-    location: 'Maternité',
-    isFavorite: false,
-    gestationWeek: 12
-  },
-  {
-    id: 'P003',
-    name: 'Max',
-    breed: 'Pietrain',
-    category: 'boar',
-    status: 'active',
-    weight: 280,
-    age: 30,
-    location: 'Verratière',
-    isFavorite: false
-  },
-  {
-    id: 'P004',
-    name: 'Petit',
-    breed: 'Large White',
-    category: 'piglet',
-    status: 'active',
-    weight: 8,
-    age: 1,
-    location: 'Nurserie',
-    isFavorite: true
-  }
-])
+// Récupérer les porcs depuis le store (déjà chargés via initializeStore)
+const pigs = computed(() => pigStore.pigs)
+const loading = computed(() => pigStore.loading)
+const modernStats = computed(() => pigStore.modernStats)
+const upcomingVaccinations = computed(() => pigStore.upcomingVaccinations)
+const stats = computed(() => pigStore.stats)
 
-const upcomingVaccinations = ref([
-  {
-    id: 1,
-    pigId: 'P001',
-    pigName: 'Babe',
-    vaccine: 'PCV2',
-    date: '2024-12-15',
-    status: 'Prévue',
-    isOverdue: false
-  },
-  {
-    id: 2,
-    pigId: 'P002',
-    pigName: 'Rose',
-    vaccine: 'Parvovirus',
-    date: '2024-12-10',
-    status: 'En retard',
-    isOverdue: true
-  }
-])
-
-const pregnantSows = ref([
-  {
-    id: 'P002',
-    name: 'Rose',
-    breed: 'Landrace',
-    gestationWeek: 12,
-    expectedLitterSize: 12,
-    daysUntilDelivery: 28
-  }
-])
-
+// Données d'exemple pour l'alimentation (à remplacer par des données API)
 const dailyConsumption = ref(350)
 const feedEfficiency = ref('2.8')
 const feedStock = ref(1500)
 const dailyFeedCost = ref(420)
 
-// Méthodes
+// Computed : Porcs récents (4 derniers ajoutés)
+const recentPigs = computed(() => {
+  // Si les porcs ont une propriété created_at, on trie par date décroissante
+  const sorted = [...pigs.value].sort((a, b) => {
+    const dateA = a.created_at ? new Date(a.created_at) : 0
+    const dateB = b.created_at ? new Date(b.created_at) : 0
+    return dateB - dateA
+  })
+  return sorted.slice(0, 4)
+})
+
+// Computed : Truies gestantes
+const pregnantSows = computed(() => {
+  return pigs.value.filter(p => p.category === 'sow' && p.status === 'pregnant')
+    .map(sow => ({
+      ...sow,
+      daysUntilDelivery: sow.expectedDelivery ? Math.ceil((new Date(sow.expectedDelivery) - new Date()) / (1000 * 60 * 60 * 24)) : '?',
+      expectedLitterSize: sow.expectedLitterSize || '?'
+    }))
+})
+
+// Méthodes de navigation
 const viewAllPigs = () => {
   router.push({ name: 'pig-list' })
 }
 
 const viewPigDetails = (pig) => {
-  router.push({ 
-    name: 'pig-details', 
-    params: { id: pig.id } 
-  })
+  router.push({ name: 'pig-details', params: { id: pig.id } })
 }
 
 const viewVaccinations = () => {
@@ -463,15 +416,15 @@ const addNewPig = () => {
 }
 
 const recordVaccination = () => {
-  router.push({ name: 'record-vaccination' })
+  router.push({ name: 'vaccinations' })
 }
 
 const recordWeight = () => {
-  router.push({ name: 'record-weight' })
+  router.push({ name: 'weighing' })
 }
 
 const recordDelivery = () => {
-  router.push({ name: 'record-delivery' })
+  router.push({ name: 'deliveries' })
 }
 
 const exportReport = () => {
@@ -489,9 +442,14 @@ const getVaccinationStatusColor = (status) => {
   return colors[status] || 'grey'
 }
 
-onMounted(() => {
-  // Charger les données initiales
-  pigStore.updateStats()
+// Le store est initialisé automatiquement (initializeStore appelé dans pigStore.js)
+// On peut éventuellement forcer un rechargement si nécessaire
+onMounted(async () => {
+  // Si les porcs n'ont pas encore été chargés, on les charge
+  if (pigStore.pigs.length === 0) {
+    await pigStore.fetchPigs()
+  }
+  console.log('Dashboard chargé avec', pigStore.pigs.length, 'porcs')
 })
 </script>
 
